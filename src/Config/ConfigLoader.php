@@ -10,14 +10,13 @@
  */
 namespace Cascade\Config;
 
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\Config\Loader\LoaderResolver;
-
 use Cascade\Config\Loader\FileLoader\Json as JsonLoader;
 use Cascade\Config\Loader\FileLoader\PhpArray as ArrayFromFileLoader;
 use Cascade\Config\Loader\FileLoader\Yaml as YamlLoader;
 use Cascade\Config\Loader\PhpArray as ArrayLoader;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
 
 /**
  * Loader class that loads Yaml, JSON and array from various resources (file, php array, string)
@@ -61,7 +60,7 @@ class ConfigLoader extends DelegatingLoader
      *
      * @return array Array of config options
      */
-    public function load($resource, $type = null)
+    public function load($resource, string $type = null)
     {
         return parent::load($resource);
     }

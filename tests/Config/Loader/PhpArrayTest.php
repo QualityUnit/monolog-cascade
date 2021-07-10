@@ -13,6 +13,7 @@ namespace Cascade\Tests\Config\Loader;
 use Cascade\Config\Loader\PhpArray as ArrayLoader;
 use Cascade\Tests\Fixtures;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 /**
  * Class PhpArrayTest
@@ -27,14 +28,14 @@ class PhpArrayTest extends TestCase
      */
     protected $arrayLoader = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->arrayLoader = new ArrayLoader();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->arrayLoader = null;
         parent::tearDown();
@@ -62,7 +63,7 @@ class PhpArrayTest extends TestCase
             array(123),
             array(123.456),
             array(null),
-            array(new \stdClass),
+            array(new stdClass),
             array(function () {
             })
         );

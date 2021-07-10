@@ -10,10 +10,12 @@
  */
 namespace Cascade\Tests\Config\Loader\FileLoader;
 
-use org\bovigo\vfs\vfsStream;
-
 use Cascade\Tests\Fixtures;
+use FileLoaderAbstractMockClass;
+use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
+use RuntimeException;
 
 /**
  * Class FileLoaderAbstractTest
@@ -24,11 +26,11 @@ class FileLoaderAbstractTest extends TestCase
 {
     /**
      * Mock of extending Cascade\Config\Loader\FileLoader\FileLoaderAbstract
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $mock = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -43,10 +45,10 @@ class FileLoaderAbstractTest extends TestCase
         );
 
         // Setting valid extensions for tests
-        \FileLoaderAbstractMockClass::$validExtensions = array('test', 'php');
+        FileLoaderAbstractMockClass::$validExtensions = array('test', 'php');
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->mock = null;
         parent::tearDown();
@@ -150,8 +152,6 @@ class FileLoaderAbstractTest extends TestCase
 
     /**
      * Test loading an invalid file
-     *
-     * @expectedException \RuntimeException
      */
     public function testloadFileFromInvalidFile()
     {
@@ -166,6 +166,7 @@ class FileLoaderAbstractTest extends TestCase
             )->at($root);
 
         // This will throw an exception because the file is not readable
+        $this->expectException(RuntimeException::class);
         $this->mock->readFrom(vfsStream::url('config_dir/config.yml'));
 
         stream_wrapper_unregister(vfsStream::SCHEME);

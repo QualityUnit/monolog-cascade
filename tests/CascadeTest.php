@@ -10,10 +10,10 @@
  */
 namespace Cascade\Tests;
 
+use Cascade\Cascade;
+use InvalidArgumentException;
 use Monolog\Logger;
 use Monolog\Registry;
-
-use Cascade\Cascade;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CascadeTest extends TestCase
 {
-    public function teardown()
+    protected function tearDown(): void
     {
         Registry::clear();
         parent::teardown();
@@ -48,11 +48,9 @@ class CascadeTest extends TestCase
         $this->assertSame($logger, $logger2);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testRegistryWithInvalidName()
     {
+        $this->expectException(InvalidArgumentException::class);
         Cascade::getLogger(null);
     }
 

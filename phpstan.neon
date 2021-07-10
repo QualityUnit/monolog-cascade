@@ -1,0 +1,4 @@
+parameters:
+    level: 1
+    ignoreErrors:
+        - "#Constructor of class .* has an unused parameter .*\\.#"

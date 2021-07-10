@@ -12,6 +12,8 @@ namespace Cascade\Tests\Config\Loader\FileLoader;
 
 use Cascade\Tests\Fixtures;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockBuilder;
+use stdClass;
 
 /**
  * Class JsonTest
@@ -22,11 +24,11 @@ class JsonTest extends TestCase
 {
     /**
      * JSON loader mock builder
-     * @var \PHPUnit_Framework_MockObject_MockBuilder
+     * @var PHPUnit_Framework_MockObject_MockBuilder
      */
     protected $jsonLoader = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -42,7 +44,7 @@ class JsonTest extends TestCase
             ->getMock();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->jsonLoader = null;
         parent::tearDown();
@@ -78,7 +80,7 @@ class JsonTest extends TestCase
             array(123),
             array(123.456),
             array(null),
-            array(new \stdClass),
+            array(new stdClass),
             array(function () {
             })
         );

@@ -1,0 +1,43 @@
+name: Pull Request - PHPUnit tests
+
+on:
+  pull_request:
+    paths:
+      - '**/*.php'
+      - '**/composer.lock'
+      - '**/composer.json'
+
+jobs:
+  php_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ 7.4, 8.0 ]
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: shivammathur/setup-php@2.11.0
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+      - name: Cache PHP dependencies
+        uses: actions/cache@v2.1.6
+        with:
+          path: LiveAgent/server/vendor
+          key: ${{ runner.OS }}-composer_dependencies-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer_dependencies-
+      - name: Install Composer dependencies
+        run: composer install
+      - name: Cache PHP Lint
+        uses: actions/cache@v2.1.6
+        with:
+          path: LiveAgent/server/.phplint-cache
+          key: PHPLint-${{ runner.os }}-${ github.sha }}
+          restore-keys: PHPLint-${{ runner.os }}
+      - name: Checking PHP syntax error
+        run: vendor/bin/phplint
+      - name: PHPstan lint
+        run: vendor/bin/phpstan analyze -c phpstan.neon --memory-limit 4g src
+      - name: PHP CS
+        run: vendor/bin/phpcs -p --extensions=php --standard=PSR2 ./src ./tests
+      - name: PHP Unit and DB tests
+        run: vendor/bin/phpunit tests/
