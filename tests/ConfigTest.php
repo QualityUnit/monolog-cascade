@@ -10,11 +10,10 @@
  */
 namespace Cascade\Tests;
 
-use Monolog\Registry;
-
 use Cascade\Config;
-use Cascade\Tests\Fixtures;
+use Monolog\Registry;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * Class ConfigTest
@@ -77,7 +76,6 @@ class ConfigTest extends TestCase
 
     /**
      * Test configure throwing an exception due to missing 'loggers' key
-     * @expectedException \RuntimeException
      */
     public function testConfigureWithNoLoggers()
     {
@@ -101,6 +99,7 @@ class ConfigTest extends TestCase
 
         // This should trigger an exception because there is no 'loggers' key in
         // the options passed in
+        $this->expectException(RuntimeException::class);
         $config->configure();
     }
 

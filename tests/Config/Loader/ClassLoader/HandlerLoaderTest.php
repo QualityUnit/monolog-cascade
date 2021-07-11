@@ -10,9 +10,11 @@
  */
 namespace Cascade\Tests\Config\Loader\ClassLoader;
 
-use Monolog\Formatter\LineFormatter;
-
 use Cascade\Config\Loader\ClassLoader\HandlerLoader;
+use Closure;
+use Exception;
+use InvalidArgumentException;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Processor\MemoryUsageProcessor;
 use Monolog\Processor\WebProcessor;
 use PHPUnit\Framework\TestCase;
@@ -56,9 +58,6 @@ class HandlerLoaderTest extends TestCase
         $this->assertEquals($original, $options);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testHandlerLoaderWithInvalidFormatter()
     {
         $options = array(
@@ -66,12 +65,10 @@ class HandlerLoaderTest extends TestCase
         );
 
         $formatters = array('test_formatterXYZ' => new LineFormatter());
+        $this->expectException(InvalidArgumentException::class);
         $loader = new HandlerLoader($options, $formatters);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testHandlerLoaderWithInvalidProcessor()
     {
         $dummyClosure = function () {
@@ -83,12 +80,10 @@ class HandlerLoaderTest extends TestCase
 
         $formatters = array();
         $processors = array('test_processorXYZ' => $dummyClosure);
+        $this->expectException(InvalidArgumentException::class);
         $loader = new HandlerLoader($options, $formatters, $processors);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testHandlerLoaderWithInvalidHandler()
     {
         $dummyClosure = function () {
@@ -101,12 +96,10 @@ class HandlerLoaderTest extends TestCase
         $formatters = array();
         $processors = array();
         $handlers = array('test_handlerXYZ' => $dummyClosure);
+        $this->expectException(InvalidArgumentException::class);
         $loader = new HandlerLoader($options, $formatters, $processors, $handlers);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testHandlerLoaderWithInvalidHandlers()
     {
         $dummyClosure = function () {
@@ -122,6 +115,7 @@ class HandlerLoaderTest extends TestCase
             'test_handler_1' => $dummyClosure,
             'test_handlerXYZ' => $dummyClosure
         );
+        $this->expectException(InvalidArgumentException::class);
         $loader = new HandlerLoader($options, $formatters, $processors, $handlers);
     }
 
@@ -129,10 +123,10 @@ class HandlerLoaderTest extends TestCase
      * Check if the handler exists for a given class and option
      * Also checks that it a callable and return it
      *
-     * @param  string $class Class name the handler applies to
-     * @param  string $optionName Option name
-     * @return \Closure Closure
-     * @throws \Exception
+     * @param string $class Class name the handler applies to
+     * @param string $optionName Option name
+     * @return Closure Closure
+     * @throws Exception
      */
     private function getHandler($class, $optionName)
     {
@@ -143,27 +137,27 @@ class HandlerLoaderTest extends TestCase
             $this->assertTrue(is_callable($closure));
 
             return $closure;
-        } else {
-            throw new \Exception(
-                sprintf(
-                    'Custom handler %s is not defined for class %s',
-                    $optionName,
-                    $class
-                )
-            );
         }
+
+        throw new Exception(
+            sprintf(
+                'Custom handler %s is not defined for class %s',
+                $optionName,
+                $class
+            )
+        );
     }
 
     /**
      * Tests that calling the given Closure will trigger a method call with the given param
      * in the given class
      *
-     * @param  string $class Class name
-     * @param  string $methodName Method name
-     * @param  mixed $methodArg Parameter passed to the closure
-     * @param  \Closure $closure Closure to call
+     * @param string $class Class name
+     * @param string $methodName Method name
+     * @param mixed $methodArg Parameter passed to the closure
+     * @param Closure $closure Closure to call
      */
-    private function doTestMethodCalledInHandler($class, $methodName, $methodArg, \Closure $closure)
+    private function doTestMethodCalledInHandler($class, $methodName, $methodArg, Closure $closure)
     {
         // Setup mock and expectations
         $mock = $this->getMockBuilder($class)
@@ -233,7 +227,7 @@ class HandlerLoaderTest extends TestCase
         // Test if handler exists and return it
         $closure = $this->getHandler($class, $optionName);
 
-        if ($class == '*') {
+        if ($class === '*') {
             $class = 'Monolog\Handler\TestHandler';
         }
 

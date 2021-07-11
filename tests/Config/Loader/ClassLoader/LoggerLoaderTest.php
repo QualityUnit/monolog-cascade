@@ -10,11 +10,11 @@
  */
 namespace Cascade\Tests\Config\Loader\ClassLoader;
 
+use Cascade\Config\Loader\ClassLoader\LoggerLoader;
+use InvalidArgumentException;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
 use Monolog\Registry;
-
-use Cascade\Config\Loader\ClassLoader\LoggerLoader;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,7 +27,7 @@ class LoggerLoaderTest extends TestCase
     /**
      * Tear down function
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         Registry::clear();
@@ -57,9 +57,6 @@ class LoggerLoaderTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testResolveHandlersWithMismatch()
     {
         $options = array(
@@ -72,6 +69,7 @@ class LoggerLoaderTest extends TestCase
         $loader = new LoggerLoader('testLogger', $options, $handlers);
 
         // This should throw an InvalidArgumentException
+        $this->expectException(InvalidArgumentException::class);
         $loader->resolveHandlers($options, $handlers);
     }
 
@@ -96,9 +94,6 @@ class LoggerLoaderTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testResolveProcessorsWithMismatch()
     {
         $dummyClosure = function () {
@@ -114,6 +109,7 @@ class LoggerLoaderTest extends TestCase
 
         $loader = new LoggerLoader('testLogger', $options, array(), $processors);
 
+        $this->expectException(InvalidArgumentException::class);
         // This should throw an InvalidArgumentException
         $loader->resolveProcessors($options, $processors);
     }

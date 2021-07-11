@@ -11,6 +11,8 @@
 namespace Cascade\Tests\Config\Loader\ClassLoader;
 
 use Cascade\Config\Loader\ClassLoader\FormatterLoader;
+use Closure;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +25,7 @@ class FormatterLoaderTest extends TestCase
     /**
      * Set up function
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         new FormatterLoader(array());
@@ -32,7 +34,7 @@ class FormatterLoaderTest extends TestCase
     /**
      * Tear down function
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         FormatterLoader::$extraOptionHandlers = array();
         parent::tearDown();
@@ -42,10 +44,10 @@ class FormatterLoaderTest extends TestCase
      * Check if the handler exists for a given class and option
      * Also checks that it a callable and return it
      *
-     * @param  string $class Class name the handler applies to
-     * @param  string $optionName Option name
-     * @return \Closure Closure
-     * @throws \Exception
+     * @param string $class Class name the handler applies to
+     * @param string $optionName Option name
+     * @return Closure Closure
+     * @throws Exception
      */
     private function getHandler($class, $optionName)
     {
@@ -56,27 +58,27 @@ class FormatterLoaderTest extends TestCase
             $this->assertTrue(is_callable($closure));
 
             return $closure;
-        } else {
-            throw new \Exception(
-                sprintf(
-                    'Handler %s is not defined for class %s',
-                    $optionName,
-                    $class
-                )
-            );
         }
+
+        throw new Exception(
+            sprintf(
+                'Handler %s is not defined for class %s',
+                $optionName,
+                $class
+            )
+        );
     }
 
     /**
      * Tests that calling the given Closure will trigger a method call with the given param
      * in the given class
      *
-     * @param  string $class Class name
-     * @param  string $methodName Method name
-     * @param  mixed $methodArg Parameter passed to the closure
-     * @param  \Closure $closure Closure to call
+     * @param string $class Class name
+     * @param string $methodName Method name
+     * @param mixed $methodArg Parameter passed to the closure
+     * @param Closure $closure Closure to call
      */
-    private function doTestMethodCalledInHandler($class, $methodName, $methodArg, \Closure $closure)
+    private function doTestMethodCalledInHandler($class, $methodName, $methodArg, Closure $closure)
     {
         // Setup mock and expectations
         $mock = $this->getMockBuilder($class)

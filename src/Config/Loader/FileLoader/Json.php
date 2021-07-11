@@ -32,7 +32,7 @@ class Json extends FileLoaderAbstract
      *
      * @return array Array containing data from the parsed JSON string or file
      */
-    public function load($resource, $type = null)
+    public function load($resource, string $type = null)
     {
         return json_decode($this->readFrom($resource), true);
     }
@@ -63,7 +63,7 @@ class Json extends FileLoaderAbstract
      *
      * @return boolean Whether or not the passed in resource is supported by this loader
      */
-    public function supports($resource, $type = null)
+    public function supports($resource, string $type = null)
     {
         if (is_string($resource)) {
             if ($this->isFile($resource)) {

@@ -7,6 +7,8 @@
  */
 namespace Cascade\Config\Loader\FileLoader;
 
+use InvalidArgumentException;
+
 /**
  * PhpArray loader class. Loads a file that returns a PHP array.
  *
@@ -29,12 +31,12 @@ class PhpArray extends FileLoaderAbstract
      *
      * @return array Array containing data from the PHP file
      */
-    public function load($resource, $type = null)
+    public function load($resource, string $type = null)
     {
         $config = include $resource;
 
         if (!is_array($config)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('The file "%s" did not return a valid PHP array when included', $resource)
             );
         }
@@ -52,7 +54,7 @@ class PhpArray extends FileLoaderAbstract
      *
      * @return boolean Whether or not the passed in resource is supported by this loader
      */
-    public function supports($resource, $type = null)
+    public function supports($resource, string $type = null)
     {
         return $this->isFile($resource) && $this->validateExtension($resource);
     }
