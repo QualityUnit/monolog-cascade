@@ -55,7 +55,7 @@ class PhpArrayTest extends TestCase
      *
      * @return array array of non-array values
      */
-    public function notStringDataProvider()
+    public static function notStringDataProvider()
     {
         return array(
             array('Some string'),

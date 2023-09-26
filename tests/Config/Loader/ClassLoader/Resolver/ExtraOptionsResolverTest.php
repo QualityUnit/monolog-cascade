@@ -149,7 +149,7 @@ class ExtraOptionsResolverTest extends TestCase
      *
      * @return array of arrays with expected resolved values and options used as input
      */
-    public function invalidOptionsProvider()
+    public static function invalidOptionsProvider()
     {
         return array(
             array(
