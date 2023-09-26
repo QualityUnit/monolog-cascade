@@ -81,7 +81,7 @@ class FileLoaderAbstractTest extends TestCase
      *
      * @return array array with original value, section and expected value
      */
-    public function extensionsDataProvider()
+    public static function extensionsDataProvider()
     {
         return array(
             array(true, 'hello/world.test'),
@@ -113,7 +113,7 @@ class FileLoaderAbstractTest extends TestCase
      *
      * @return array array wit original value, section and expected value
      */
-    public function arrayDataProvider()
+    public static function arrayDataProvider()
     {
         return array(
             array(
