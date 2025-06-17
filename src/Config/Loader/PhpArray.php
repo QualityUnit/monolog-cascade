@@ -28,7 +28,7 @@ class PhpArray extends Loader
      *
      * @return array The passed in array
      */
-    public function load($array, ?string $type = null)
+    public function load($array, string $type = null)
     {
         return $array;
     }
@@ -41,7 +41,7 @@ class PhpArray extends Loader
      *
      * @return boolean Whether or not the passed in resource is supported by this loader
      */
-    public function supports($resource, ?string $type = null)
+    public function supports($resource, string $type = null)
     {
         return is_array($resource);
     }

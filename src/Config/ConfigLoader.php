@@ -60,7 +60,7 @@ class ConfigLoader extends DelegatingLoader
      *
      * @return array Array of config options
      */
-    public function load(mixed $resource, ?string $type = null): mixed
+    public function load(mixed $resource, string $type = null): mixed
     {
         return parent::load($resource);
     }

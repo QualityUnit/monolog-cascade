@@ -31,7 +31,7 @@ class PhpArray extends FileLoaderAbstract
      *
      * @return array Array containing data from the PHP file
      */
-    public function load($resource, ?string $type = null)
+    public function load($resource, string $type = null)
     {
         $config = include $resource;
 
@@ -50,11 +50,11 @@ class PhpArray extends FileLoaderAbstract
      * will be thrown when it is loaded if that is not the case.
      *
      * @param  string $resource Filepath
-     * @param  string|null $type Not used
+     * @param  string $type Not used
      *
      * @return boolean Whether or not the passed in resource is supported by this loader
      */
-    public function supports($resource, ?string $type = null)
+    public function supports($resource, string $type = null)
     {
         return $this->isFile($resource) && $this->validateExtension($resource);
     }
