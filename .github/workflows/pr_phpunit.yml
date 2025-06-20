@@ -20,7 +20,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
           coverage: none
       - name: Cache PHP dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v4
         with:
           path: LiveAgent/server/vendor
           key: ${{ runner.OS }}-composer_dependencies-${{ hashFiles('**/composer.lock') }}
@@ -28,7 +28,7 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
       - name: Cache PHP Lint
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v4
         with:
           path: LiveAgent/server/.phplint-cache
           key: PHPLint-${{ runner.os }}-${ github.sha }}

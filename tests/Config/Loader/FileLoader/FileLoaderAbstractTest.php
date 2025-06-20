@@ -11,10 +11,9 @@
 namespace Cascade\Tests\Config\Loader\FileLoader;
 
 use Cascade\Tests\Fixtures;
-use FileLoaderAbstractMockClass;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use RuntimeException;
 
 /**
@@ -26,7 +25,7 @@ class FileLoaderAbstractTest extends TestCase
 {
     /**
      * Mock of extending Cascade\Config\Loader\FileLoader\FileLoaderAbstract
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var MockObject
      */
     protected $mock = null;
 
@@ -40,12 +39,12 @@ class FileLoaderAbstractTest extends TestCase
 
         $this->mock = $this->getMockForAbstractClass(
             'Cascade\Config\Loader\FileLoader\FileLoaderAbstract',
-            array($fileLocatorMock),
-            'FileLoaderAbstractMockClass' // mock class name
+            array($fileLocatorMock)
         );
 
         // Setting valid extensions for tests
-        FileLoaderAbstractMockClass::$validExtensions = array('test', 'php');
+        $mockClass = get_class($this->mock);
+        $mockClass::$validExtensions = ['test', 'php'];
     }
 
     protected function tearDown(): void

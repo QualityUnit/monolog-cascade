@@ -37,7 +37,7 @@ class Yaml extends FileLoaderAbstract
      *
      * @return array Array containing data from the parse Yaml string or file
      */
-    public function load($resource, string $type = null)
+    public function load($resource, ?string $type = null)
     {
         return YamlParser::parse($this->readFrom($resource));
     }
@@ -47,11 +47,11 @@ class Yaml extends FileLoaderAbstract
      * /!\ This does not validate Yaml content. The parser will raise an exception in that case
      *
      * @param  string $resource Plain string or filepath
-     * @param  string $type Not used
+     * @param  string|null $type Not used
      *
      * @return boolean Whether or not the passed in resrouce is supported by this loader
      */
-    public function supports($resource, string $type = null)
+    public function supports($resource, ?string $type = null)
     {
         if (!is_string($resource)) {
             return false;
