@@ -13,7 +13,7 @@
     ],
     "homepage": "https://github.com/theorchard/monolog-cascade",
     "require": {
-        "php": "^8.1",
+        "php": "^8.4",
         "symfony/config": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0" ,
         "symfony/options-resolver": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
         "symfony/serializer": "^2.7 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
