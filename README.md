@@ -20,7 +20,7 @@ Add `monolog-cascade` as a requirement in your `composer.json` file or run
 $ composer require theorchard/monolog-cascade
 ```
 
-Note: Monolog Cascade requires PHP 5.3.9 or higher.
+Note: Monolog Cascade requires PHP 8.4 or higher.
 
 Usage
 -----
