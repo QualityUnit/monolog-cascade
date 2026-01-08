@@ -35,7 +35,7 @@
         "phpunit/phpunit": "^10.0",
         "squizlabs/php_codesniffer": "~3.0",
         "overtrue/phplint": "^9.0",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^1.10 || ^2.0",
         "ext-json": "*"
     },
     "prefer-stable": true,
