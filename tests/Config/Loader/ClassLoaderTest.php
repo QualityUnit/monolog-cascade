@@ -13,6 +13,7 @@ namespace Cascade\Tests\Config\Loader;
 use Cascade\Config\Loader\ClassLoader;
 use Cascade\Tests\Fixtures\DependentClass;
 use Cascade\Tests\Fixtures\SampleClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -68,8 +69,8 @@ class ClassLoaderTest extends TestCase
      *
      * @param  array $options Array of options
      * @param  string $expectedClass Expected classname of the instantiated object
-     * @dataProvider dataFortestSetClass
      */
+    #[DataProvider('dataFortestSetClass')]
     public function testSetClass($options, $expectedClass)
     {
         $loader = new ClassLoader($options);

@@ -13,6 +13,7 @@ namespace Cascade\Tests\Config\Loader\ClassLoader;
 use Cascade\Config\Loader\ClassLoader\FormatterLoader;
 use Closure;
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -129,8 +130,8 @@ class FormatterLoaderTest extends TestCase
      * @param  string $optionName Option name
      * @param  mixed $optionValue Option value
      * @param  string $calledMethodName Expected called method name
-     * @dataProvider handlerParamsProvider
      */
+    #[DataProvider('handlerParamsProvider')]
     public function testHandlers($class, $optionName, $optionValue, $calledMethodName)
     {
         // Test if handler exists and return it

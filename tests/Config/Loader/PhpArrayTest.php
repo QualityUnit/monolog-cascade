@@ -12,6 +12,7 @@ namespace Cascade\Tests\Config\Loader;
 
 use Cascade\Config\Loader\PhpArray as ArrayLoader;
 use Cascade\Tests\Fixtures;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -73,8 +74,8 @@ class PhpArrayTest extends TestCase
      * Test loading resources supported by the YamlLoader
      *
      * @param mixed $invalidResource Invalid resource value
-     * @dataProvider notStringDataProvider
      */
+    #[DataProvider('notStringDataProvider')]
     public function testSupportsWithInvalidResource($invalidResource)
     {
         $this->assertFalse($this->arrayLoader->supports($invalidResource));

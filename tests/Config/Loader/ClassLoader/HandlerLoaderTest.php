@@ -17,6 +17,7 @@ use InvalidArgumentException;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Processor\MemoryUsageProcessor;
 use Monolog\Processor\WebProcessor;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -218,8 +219,8 @@ class HandlerLoaderTest extends TestCase
      * @param  string $optionName Option name
      * @param  mixed $optionValue Option value
      * @param  string $calledMethodName Expected called method name
-     * @dataProvider handlerParamsProvider
      */
+    #[DataProvider('handlerParamsProvider')]
     public function testHandlers($class, $optionName, $optionValue, $calledMethodName)
     {
         $options = array();
