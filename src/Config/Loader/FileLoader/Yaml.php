@@ -37,7 +37,7 @@ class Yaml extends FileLoaderAbstract
      *
      * @return array Array containing data from the parse Yaml string or file
      */
-    public function load($resource, ?string $type = null)
+    public function load(mixed $resource, ?string $type = null): mixed
     {
         return YamlParser::parse($this->readFrom($resource));
     }
@@ -51,7 +51,7 @@ class Yaml extends FileLoaderAbstract
      *
      * @return boolean Whether or not the passed in resrouce is supported by this loader
      */
-    public function supports($resource, ?string $type = null)
+    public function supports(mixed $resource, ?string $type = null): bool
     {
         if (!is_string($resource)) {
             return false;
