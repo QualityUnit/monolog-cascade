@@ -6,6 +6,7 @@ on:
       - '**/*.php'
       - '**/composer.lock'
       - '**/composer.json'
+      - '.github/workflows/pr_phpunit.yml'
 
 jobs:
   php_tests:
