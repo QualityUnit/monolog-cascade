@@ -12,6 +12,7 @@ namespace Cascade\Tests\Config\Loader\ClassLoader\Resolver;
 
 use Cascade\Config\Loader\ClassLoader\Resolver\ConstructorResolver;
 use Cascade\Util;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionParameter;
@@ -149,8 +150,8 @@ class ConstructorResolverTest extends TestCase
      * @param array $expectedResolvedOptions Array of expected resolved options
      * (i.e. parsed and validated)
      * @param  array $options Array of raw options
-     * @dataProvider optionsProvider
      */
+    #[DataProvider('optionsProvider')]
     public function testResolve(array $expectedResolvedOptions, array $options)
     {
         $this->assertEquals($expectedResolvedOptions, $this->resolver->resolve($options));
@@ -167,17 +168,14 @@ class ConstructorResolverTest extends TestCase
     public static function missingOptionsProvider()
     {
         return array(
-            array(
-                array( // No values
-                ),
-                array( // Missing a mandatory value
-                    'optionalB' => 'BBB'
-                ),
-                array( // Still missing a mandatory value
-                    'optionalB' => 'there',
-                    'optionalA' => 'hello'
-                )
-            )
+            array(array()), // No values
+            array(array( // Missing a mandatory value
+                'optionalB' => 'BBB'
+            )),
+            array(array( // Still missing a mandatory value
+                'optionalB' => 'there',
+                'optionalA' => 'hello'
+            ))
         );
     }
 
@@ -185,8 +183,8 @@ class ConstructorResolverTest extends TestCase
      * Test resolving with missing/incomplete options. It should throw an exception.
      *
      * @param  array $incompleteOptions Array of invalid options
-     * @dataProvider missingOptionsProvider
      */
+    #[DataProvider('missingOptionsProvider')]
     public function testResolveWithMissingOptions(array $incompleteOptions)
     {
         $this->expectException(Symfony\Component\OptionsResolver\Exception\MissingOptionsException::class);
@@ -204,19 +202,17 @@ class ConstructorResolverTest extends TestCase
     public static function invalidOptionsProvider()
     {
         return array(
-            array(
-                array('ABC'),
-                array( // All invalid
-                    'someInvalidOptionA' => 'abc',
-                    'someInvalidOptionB' => 'def'
-                ),
-                array( // Some invalid
-                    'optionalB' => 'there',
-                    'optionalA' => 'hello',
-                    'mandatory' => 'dsadsa',
-                    'additionalInvalid' => 'some unknow param'
-                )
-            )
+            array(array('ABC')),
+            array(array( // All invalid
+                'someInvalidOptionA' => 'abc',
+                'someInvalidOptionB' => 'def'
+            )),
+            array(array( // Some invalid
+                'optionalB' => 'there',
+                'optionalA' => 'hello',
+                'mandatory' => 'dsadsa',
+                'additionalInvalid' => 'some unknow param'
+            ))
         );
     }
 
@@ -224,8 +220,8 @@ class ConstructorResolverTest extends TestCase
      * Test resolving with invalid options. It should throw an exception.
      *
      * @param  array $invalidOptions Array of invalid options
-     * @dataProvider invalidOptionsProvider
      */
+    #[DataProvider('invalidOptionsProvider')]
     public function testResolveWithInvalidOptions($invalidOptions)
     {
         $this->expectException(Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException::class);

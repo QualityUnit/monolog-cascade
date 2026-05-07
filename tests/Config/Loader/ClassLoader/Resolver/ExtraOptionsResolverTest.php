@@ -11,6 +11,7 @@
 namespace Cascade\Tests\Config\Loader\ClassLoader\Resolver;
 
 use Cascade\Config\Loader\ClassLoader\Resolver\ExtraOptionsResolver;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony;
@@ -152,17 +153,15 @@ class ExtraOptionsResolverTest extends TestCase
     public static function invalidOptionsProvider()
     {
         return array(
-            array(
-                array( // Some invalid
-                    'optionalB' => 'there',
-                    'optionalA' => 'hello',
-                    'additionalInvalid' => 'some unknow param'
-                ),
-                array( // All invalid
-                    'someInvalidOptionA' => 'abc',
-                    'someInvalidOptionB' => 'def'
-                )
-            )
+            array(array( // Some invalid
+                'optionalB' => 'there',
+                'optionalA' => 'hello',
+                'additionalInvalid' => 'some unknow param'
+            )),
+            array(array( // All invalid
+                'someInvalidOptionA' => 'abc',
+                'someInvalidOptionB' => 'def'
+            ))
         );
     }
 
@@ -170,8 +169,8 @@ class ExtraOptionsResolverTest extends TestCase
      * Test resolving with invalid options. It should throw an exception.
      *
      * @param  array $invalidOptions Array of invalid options
-     * @dataProvider invalidOptionsProvider
      */
+    #[DataProvider('invalidOptionsProvider')]
     public function testResolveWithInvalidOptions($invalidOptions)
     {
         $this->expectException(Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException::class);

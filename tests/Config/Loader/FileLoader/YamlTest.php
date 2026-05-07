@@ -11,8 +11,9 @@
 namespace Cascade\Tests\Config\Loader\FileLoader;
 
 use Cascade\Tests\Fixtures;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockBuilder;
 use stdClass;
 use Symfony\Component\Yaml\Yaml as YamlParser;
 
@@ -25,7 +26,7 @@ class YamlTest extends TestCase
 {
     /**
      * Yaml loader mock builder
-     * @var PHPUnit_Framework_MockObject_MockBuilder
+     * @var MockBuilder
      */
     protected $yamlLoader = null;
 
@@ -92,8 +93,8 @@ class YamlTest extends TestCase
      * Test loading resources supported by the YamlLoader
      *
      * @param mixed $invalidResource Invalid resource value
-     * @dataProvider notStringDataProvider
      */
+    #[DataProvider('notStringDataProvider')]
     public function testSupportsWithInvalidResource($invalidResource)
     {
         $this->assertFalse($this->yamlLoader->supports($invalidResource));

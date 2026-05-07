@@ -10,9 +10,10 @@
  */
 namespace Cascade\Tests\Config\Loader\FileLoader;
 
+use Cascade\Config\Loader\FileLoader\FileLoaderAbstract;
 use Cascade\Tests\Fixtures;
 use org\bovigo\vfs\vfsStream;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -24,8 +25,8 @@ use RuntimeException;
 class FileLoaderAbstractTest extends TestCase
 {
     /**
-     * Mock of extending Cascade\Config\Loader\FileLoader\FileLoaderAbstract
-     * @var MockObject
+     * Concrete subclass of Cascade\Config\Loader\FileLoader\FileLoaderAbstract
+     * @var FileLoaderAbstract
      */
     protected $mock = null;
 
@@ -37,10 +38,17 @@ class FileLoaderAbstractTest extends TestCase
             'Symfony\Component\Config\FileLocatorInterface'
         );
 
-        $this->mock = $this->getMockForAbstractClass(
-            'Cascade\Config\Loader\FileLoader\FileLoaderAbstract',
-            array($fileLocatorMock)
-        );
+        $this->mock = new class ($fileLocatorMock) extends FileLoaderAbstract {
+            public function load(mixed $resource, ?string $type = null): mixed
+            {
+                return null;
+            }
+
+            public function supports(mixed $resource, ?string $type = null): bool
+            {
+                return false;
+            }
+        };
 
         // Setting valid extensions for tests
         $mockClass = get_class($this->mock);
@@ -96,8 +104,8 @@ class FileLoaderAbstractTest extends TestCase
      *
      * @param boolean $expected Expected boolean value
      * @param string $filepath Filepath to validate
-     * @dataProvider extensionsDataProvider
      */
+    #[DataProvider('extensionsDataProvider')]
     public function testValidateExtension($expected, $filepath)
     {
         if ($expected) {
@@ -142,8 +150,8 @@ class FileLoaderAbstractTest extends TestCase
      * @param array $array Array of options
      * @param string $section Section key
      * @param array $expected Expected array for the given section
-     * @dataProvider arrayDataProvider
      */
+    #[DataProvider('arrayDataProvider')]
     public function testGetSectionOf(array $array, $section, array $expected)
     {
         $this->assertSame($expected, $this->mock->getSectionOf($array, $section));
